@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Foundation - Partner Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+       <style>
+        body { background-color: #002366; font-family: sans-serif; color: white; padding: 20px; }
+        .card { background: white; color: #333; padding: 20px; border-radius: 15px; margin-bottom: 20px; border-left: 5px solid #f1c40f; }
+        h1 { color: #f1c40f; text-align: center; }
+        .accept-btn { background: #27ae60; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; width: 100%; margin-top: 10px; }
+        .no-tasks { text-align: center; opacity: 0.7; margin-top: 50px; }
+    </style> </head>
+<body>
+
+
+    <h1><i class="fas fa-handshake"></i> Partner Task Board</h1>
+    <div id="task-list">
+        </div>
+
+    <script>
+        function loadTasks() {
+            const taskList = document.getElementById('task-list');
+            const apps = JSON.parse(localStorage.getItem('pendingPartnerApps') || "[]");
+
+            if (apps.length === 0) {
+                taskList.innerHTML = '<p class="no-tasks">No pending app applications at the moment.</p>';
+                return;
+            }
+
+            taskList.innerHTML = apps.map((app, index) => `
+                <div class="card">
+                    <h3><i class="fas fa-mobile-alt"></i> ${app['biz-name']}</h3>
+                    <p><b>Owner:</b> ${app['biz-owner']}</p>
+                    <p><b>ABN:</b> ${app['biz-abn']}</p>
+                    <p><b>Products:</b> ${app['biz-products']}</p>
+                    <p><b>Description:</b> ${app['biz-desc']}</p>
+                    <button class="accept-btn" onclick="acceptTask(${index})">Accept & Start Building</button>
+                </div>
+            `).join('');
+        }
+
+        function acceptTask(index) {
+            let apps = JSON.parse(localStorage.getItem('pendingPartnerApps'));
+            const acceptedApp = apps[index];
+            
+            // Remove from the list (deleting it as you requested)
+            apps.splice(index, 1);
+            localStorage.setItem('pendingPartnerApps', JSON.stringify(apps));
+            
+            alert("Task for " + acceptedApp['biz-name'] + " accepted! It has been removed from the public board.");
+            loadTasks(); // Refresh the list
+        }
+
+        // Load tasks immediately when the page opens
+        window.onload = loadTasks;
+    </script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+.dv-btn {
+  background-color: #e63946; /* A bold red color */
+  color: white;              /* White text */
+  padding: 12px 20px;        /* Makes it larger and easier to tap */
+  font-size: 16px;           /* Bigger text */
+  font-weight: bold;
+  border: none;              /* Removes the default grey border */
+  border-radius: 8px;        /* Rounds the corners */
+  margin-top: 10px;          /* Adds space above it */
+  cursor: pointer;           /* Shows it is clickable */
+}
+
